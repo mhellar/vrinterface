@@ -16,7 +16,7 @@ char pass[] = "";                    // your network password
 
 WiFiUDP Udp;                                // A UDP instance to let us send and receive packets over UDP
 const IPAddress outIp(10, 10, 21, 134);     // remote IP of your computer
-const unsigned int outPort = 9999;          // remote port to receive OSC
+const unsigned int outPort = 8080;          // remote port to receive OSC
 const unsigned int localPort = 8888;        // local port to listen for OSC packets (actually not used for sending)
 
 
@@ -207,10 +207,10 @@ void loop(void)
   Serial.print("\tZ: ");
   Serial.print(event.orientation.z, 4);
 
-    OSCMessage msg("");
-    msg.add("hello, osc.");
-    msg.add (" \tY:");
-    msg.add ("\tZ: ");
+    OSCMessage msg("sensor");
+    msg.add(event.orientation.x);
+    msg.add (event.orientation.y);
+    msg.add (event.orientation.z);
     Udp.beginPacket(outIp, outPort);
     msg.send(Udp);
     Udp.endPacket();
